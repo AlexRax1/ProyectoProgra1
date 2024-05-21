@@ -10,6 +10,8 @@ import java.io.IOException;
 import prueba.Cursos;
 import prueba.CursosDB;
 
+
+
 /**
  * JavaFX App
  */
@@ -19,9 +21,29 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"), 640, 480);
+        
+        
+        scene = new Scene(loadFXML("inicio"), 854, 503); 
         stage.setScene(scene);
         stage.show();
+        
+        
+        
+        //codigo original que me dio
+        /*
+        
+        scene = new Scene(loadFXML("Login"), 640, 480);
+        stage.setScene(scene);
+        stage.show();
+        
+        
+        //este codigo solo es un recordatorio(no tiene nada que ver)
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Login.fxml"));
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
+        primaryStage.show();        
+        */
+        
     }
 
     static void setRoot(String fxml) throws IOException {
@@ -34,11 +56,11 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        CursosDB cursosDb = new CursosDB();
+        //CursosDB cursosDb = new CursosDB();
         
         //Insertar registro
-        Cursos e1 = new Cursos("75944000", "Estadistica", "Perez1");
-        cursosDb.agregar(e1);
+        //Cursos e1 = new Cursos("75944000", "Estadistica", "Perez1");
+        //cursosDb.agregar(e1);
         
         
         launch();

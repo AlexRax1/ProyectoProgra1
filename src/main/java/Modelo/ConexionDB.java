@@ -1,3 +1,5 @@
+package Modelo;
+
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -5,7 +7,6 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import prueba.ConexionBD1;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -31,7 +32,7 @@ public class ConexionDB {
             System.out.println("Conexión exitosa a la base de datos PostgreSQL");
 
         } catch (SQLException ex) {
-            Logger.getLogger(ConexionBD1.class.getName()).log(Level.SEVERE, "Error en la conexión", ex);
+            Logger.getLogger(ConexionDB.class.getName()).log(Level.SEVERE, "Error en la conexión", ex);
         }
     }
     
@@ -42,4 +43,6 @@ public class ConexionDB {
         return conn;
     }
 }
+
+
 
