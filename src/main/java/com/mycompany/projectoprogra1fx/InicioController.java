@@ -58,7 +58,7 @@ public class InicioController implements Initializable {
 
         // Hacer la consulta a la base de datos
         int resultado = autenticarUsuario(usuario_id, contrasena);
-
+// esto es para que me funcione el commit
         switch (resultado) {
             case 0:
                 App.setRoot("primary");
@@ -75,6 +75,8 @@ public class InicioController implements Initializable {
     Connection conn = ConexionDB.getConnection();
     private int autenticarUsuario(int usuario, String contrasena) {
  
+        
+        
         
         boolean rol;
         String query = "SELECT es_administrador FROM \"usuarios\" WHERE usuario_id = ? AND contrasena = ?";
