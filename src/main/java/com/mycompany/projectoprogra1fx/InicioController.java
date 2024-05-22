@@ -3,8 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
 package com.mycompany.projectoprogra1fx;
-
-import Modelo.ConexionDB;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,12 +17,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-
+import Modelo.ConexionDB;
+import java.io.IOException;
 /**
  * FXML Controller class
  *
  * @author alex1
- */
+ */ 
 public class InicioController implements Initializable {
 
     /**
@@ -44,10 +43,9 @@ public class InicioController implements Initializable {
     
    
     @FXML
-    private void eventAction(ActionEvent event) {
+    private void eventAction(ActionEvent event) throws IOException{
         // Obtener el texto de los campos de texto
-        
-        int usuario = Integer.parseInt(txtUsuario.getText());
+        String usuario = txtUsuario.getText();
         String contrasena = txtContrasena.getText();
 
         // Validar que los campos no estén vacíos
@@ -56,34 +54,54 @@ public class InicioController implements Initializable {
             return;
         }
 
-        // Hacer la consulta a la base de datos
-        if (autenticarUsuario(usuario, contrasena)) {
-            showAlert(Alert.AlertType.INFORMATION, "Éxito", "Inicio de sesión exitoso");
-            System.out.println("se ingreso");
-            // Aquí puedes redirigir a otra escena o realizar alguna acción adicional
-        } else {
-            System.out.println("no se ingreso");
+        int usuario_id = Integer.parseInt(usuario);
 
-            showAlert(Alert.AlertType.ERROR, "Error", "Usuario o contraseña incorrectos");
+        // Hacer la consulta a la base de datos
+        int resultado = autenticarUsuario(usuario_id, contrasena);
+
+        switch (resultado) {
+            case 0:
+                App.setRoot("primary");
+                break;
+            case 1:
+                App.setRoot("secondary");
+                break;
+            default:
+                showAlert(Alert.AlertType.ERROR, "Error", "Usuario o contraseña incorrectos");
+                break;
         }
     }
-    
-    private boolean autenticarUsuario(Integer usuario, String contrasena) {
+
+    Connection conn = ConexionDB.getConnection();
+    private int autenticarUsuario(int usuario, String contrasena) {
  
-        String query = "SELECT * FROM \"usuarios\" WHERE usuario_id = ? AND contrasena = ?";
-        try (Connection conn = ConexionDB.getConnection();
-            PreparedStatement statement = conn.prepareStatement(query)) {
+        
+        boolean rol;
+        String query = "SELECT es_administrador FROM \"usuarios\" WHERE usuario_id = ? AND contrasena = ?";
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, usuario);
             statement.setString(2, contrasena);
             ResultSet resultSet = statement.executeQuery();
-            System.out.println("hasta aca esta corrceto");
-            return resultSet.next(); // Retorna true si hay una fila, false de lo contrario
-        } catch (SQLException e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Error de conexión a la base de datos");
-            return false;
-        }
-    }
 
+            if (resultSet.next()) {
+                rol = resultSet.getBoolean("es_administrador");
+                int rol1 = rol ? 1 : 0;
+                return rol1;
+            } else {
+                System.out.println("se ejecuta el else");
+                return 2;
+            }
+        } catch (SQLException e) {
+            System.out.println("se ejecuta el catch");
+            showAlert(Alert.AlertType.ERROR, "Error", "Error de conexión a la base de datos");
+            return 2;
+        } 
+        
+    }
+    
+    
+    
     private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -96,7 +114,7 @@ public class InicioController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Añadir el filtro de eventos a los campos de texto y contraseña
-        txtUsuario.addEventFilter(KeyEvent.KEY_TYPED, this::filterSpace);
+        txtUsuario.addEventFilter(KeyEvent.KEY_TYPED, this::filterNonNumeric);
         txtContrasena.addEventFilter(KeyEvent.KEY_TYPED, this::filterSpace);
     }
 
@@ -106,6 +124,10 @@ public class InicioController implements Initializable {
         }
     } 
     
-    
+    private void filterNonNumeric(KeyEvent event) {
+        if (!event.getCharacter().matches("\\d")) {
+            event.consume(); // Consume el evento si no es un dígito
+        }
+    }
     
 }
