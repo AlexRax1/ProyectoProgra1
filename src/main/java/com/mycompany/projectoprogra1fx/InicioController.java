@@ -61,7 +61,7 @@ public class InicioController implements Initializable {
 // esto es para que me funcione el commit
         switch (resultado) {
             case 0:
-                App.setRoot("primary");
+                App.setRoot("administrador");
                 break;
             case 1:
                 App.setRoot("secondary");
