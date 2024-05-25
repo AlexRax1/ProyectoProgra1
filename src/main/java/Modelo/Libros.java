@@ -9,15 +9,15 @@ package Modelo;
  * @author alex1
  */
 public class Libros {
-    private int libro_id;
+    private int libroId;
     private String titulo;
     private String autor;
-    private int anoPublicacion;
+    private String anoPublicacion;
     private String editorial;
     private int disponibles;
 
-    public Libros(int libro_id, String titulo, String autor, int anoPublicacion, String editorial, int disponibles) {
-        this.libro_id = libro_id;
+    public Libros(int libroId, String titulo, String autor, String anoPublicacion, String editorial, int disponibles) {
+        this.libroId = libroId;
         this.titulo = titulo;
         this.autor = autor;
         this.anoPublicacion = anoPublicacion;
@@ -25,12 +25,12 @@ public class Libros {
         this.disponibles = disponibles;
     }
 
-    public int getLibro_id() {
-        return libro_id;
+    public int getLibroId() {
+        return libroId;
     }
 
-    public void setLibro_id(int libro_id) {
-        this.libro_id = libro_id;
+    public void setLibroId(int libroId) {
+        this.libroId = libroId;
     }
 
     public String getTitulo() {
@@ -49,11 +49,11 @@ public class Libros {
         this.autor = autor;
     }
 
-    public int getAnoPublicacion() {
+    public String getAnoPublicacion() {
         return anoPublicacion;
     }
 
-    public void setAnoPublicacion(int anoPublicacion) {
+    public void setAnoPublicacion(String anoPublicacion) {
         this.anoPublicacion = anoPublicacion;
     }
 
@@ -72,6 +72,8 @@ public class Libros {
     public void setDisponibles(int disponibles) {
         this.disponibles = disponibles;
     }
+
+   
     
     
 }

@@ -1,11 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.projectoprogra1fx.RLibrosController">
-    
+
+<AnchorPane prefHeight="525.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.projectoprogra1fx.RLibrosController">
+   <children>
+      <BorderPane prefHeight="531.0" prefWidth="961.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <TableView fx:id="tablaLibros" editable="true" prefHeight="400.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+               <columns>
+                  <TableColumn fx:id="idColumna" prefWidth="85.0" text="id" />
+                  <TableColumn fx:id="nombreColumna" prefWidth="333.0" text="Nombre" />
+                  <TableColumn fx:id="autorColumna" prefWidth="194.0" text="Author" />
+                  <TableColumn fx:id="anoColumna" prefWidth="195.0" text="Año de publicacion" />
+                  <TableColumn fx:id="editorialColumna" prefWidth="250.0" text="Editorial" />
+                  <TableColumn fx:id="cantidadColumna" prefWidth="142.0" text="Cantidad disponibles" />
+               </columns>
+            </TableView>
+         </center>
+         <bottom>
+            <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <items>
+                  <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="76.0" text="Anadir">
+                     <graphic>
+                        <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/addBook.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <TextField fx:id="titleTextField" promptText="Nombre" />
+                  <TextField fx:id="subjectTextField" promptText="Autor" />
+                  <TextField fx:id="authorTextField" promptText="Editorial" />
+                  <DatePicker fx:id="publishedDatePicker" promptText="Año de publicacion" />
+                  <Spinner fx:id="quantitySpinner" editable="true" prefHeight="26.0" prefWidth="77.0" />
+                  <Button cancelButton="true" mnemonicParsing="false" text="Limpiar" />
+               </items>
+            </ToolBar>
+         </bottom>
+         <top>
+            <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <items>
+                  <TextField fx:id="searchTextField1" promptText="id" />
+                  <TextField fx:id="searchTextField3" promptText="Nombre" />
+                  <TextField fx:id="searchTextField" promptText="autor" />
+                  <TextField fx:id="searchTextField2" promptText="Editorial" />
+                  <DatePicker fx:id="publishedDatePicker1" promptText="Año de publicacion" />
+                  <Button mnemonicParsing="false" text="Buscar">
+                     <graphic>
+                        <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/search.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="resetButton" mnemonicParsing="false" text="Reiniciar">
+                     <graphic>
+                        <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/back.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" text="Eliminar">
+                     <graphic>
+                        <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/deleteBook.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </items>
+            </ToolBar>
+         </top>
+      </BorderPane>
+   </children>
 </AnchorPane>
