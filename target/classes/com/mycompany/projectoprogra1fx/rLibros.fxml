@@ -12,7 +12,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-
 <AnchorPane prefHeight="525.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.projectoprogra1fx.RLibrosController">
    <children>
       <BorderPane prefHeight="531.0" prefWidth="961.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -31,7 +30,7 @@
          <bottom>
             <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <items>
-                  <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="76.0" text="Anadir">
+                  <Button fx:id="btnAgregar" mnemonicParsing="false" prefHeight="26.0" prefWidth="76.0" text="Agregar">
                      <graphic>
                         <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -40,24 +39,23 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <TextField fx:id="titleTextField" promptText="Nombre" />
-                  <TextField fx:id="subjectTextField" promptText="Autor" />
-                  <TextField fx:id="authorTextField" promptText="Editorial" />
-                  <DatePicker fx:id="publishedDatePicker" promptText="Año de publicacion" />
-                  <Spinner fx:id="quantitySpinner" editable="true" prefHeight="26.0" prefWidth="77.0" />
-                  <Button cancelButton="true" mnemonicParsing="false" text="Limpiar" />
+                  <TextField fx:id="nombretxt" promptText="Nombre" />
+                  <TextField fx:id="autortxt" promptText="Autor" />
+                  <TextField fx:id="editorialtxt" promptText="Editorial" />
+                  <DatePicker fx:id="publicaciontxt" editable="false" promptText="Año de publicacion" />
+                  <Spinner fx:id="cantidadtxt" editable="true" prefHeight="26.0" prefWidth="77.0" />
+                  <Button fx:id="btnLimpiar" cancelButton="true" mnemonicParsing="false" text="Limpiar" />
                </items>
             </ToolBar>
          </bottom>
          <top>
             <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <items>
-                  <TextField fx:id="searchTextField1" promptText="id" />
-                  <TextField fx:id="searchTextField3" promptText="Nombre" />
-                  <TextField fx:id="searchTextField" promptText="autor" />
-                  <TextField fx:id="searchTextField2" promptText="Editorial" />
-                  <DatePicker fx:id="publishedDatePicker1" promptText="Año de publicacion" />
-                  <Button mnemonicParsing="false" text="Buscar">
+                  <TextField fx:id="bIdtxt" promptText="id" />
+                  <TextField fx:id="bNombretxt" promptText="Nombre" />
+                  <TextField fx:id="bAutortxt" promptText="autor" />
+                  <TextField fx:id="bEditorialtxt" promptText="Editorial" />
+                  <Button fx:id="btnBuscar" mnemonicParsing="false" text="Buscar">
                      <graphic>
                         <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -66,7 +64,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="resetButton" mnemonicParsing="false" text="Reiniciar">
+                  <Button fx:id="btnReiniciar" mnemonicParsing="false" text="Reiniciar">
                      <graphic>
                         <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -75,7 +73,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button mnemonicParsing="false" text="Eliminar">
+                  <Button fx:id="btnEliminar" mnemonicParsing="false" text="Eliminar">
                      <graphic>
                         <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -84,6 +82,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
+                  <Button fx:id="btnLimpiarb" cancelButton="true" mnemonicParsing="false" text="Limpiar" />
                </items>
             </ToolBar>
          </top>

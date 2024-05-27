@@ -4,6 +4,8 @@
  */
 package Modelo;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author alex1
@@ -12,11 +14,11 @@ public class Libros {
     private int libroId;
     private String titulo;
     private String autor;
-    private String anoPublicacion;
+    private LocalDate anoPublicacion;
     private String editorial;
     private int disponibles;
 
-    public Libros(int libroId, String titulo, String autor, String anoPublicacion, String editorial, int disponibles) {
+    public Libros(int libroId, String titulo, String autor, LocalDate anoPublicacion, String editorial, int disponibles) {
         this.libroId = libroId;
         this.titulo = titulo;
         this.autor = autor;
@@ -49,11 +51,11 @@ public class Libros {
         this.autor = autor;
     }
 
-    public String getAnoPublicacion() {
+    public LocalDate getAnoPublicacion() {
         return anoPublicacion;
     }
 
-    public void setAnoPublicacion(String anoPublicacion) {
+    public void setAnoPublicacion(LocalDate anoPublicacion) {
         this.anoPublicacion = anoPublicacion;
     }
 
@@ -73,7 +75,7 @@ public class Libros {
         this.disponibles = disponibles;
     }
 
-   
+    
     
     
 }
