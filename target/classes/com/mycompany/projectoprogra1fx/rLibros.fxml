@@ -73,16 +73,10 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="btnEliminar" mnemonicParsing="false" text="Eliminar">
-                     <graphic>
-                        <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/deleteBook.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
                   <Button fx:id="btnLimpiarb" cancelButton="true" mnemonicParsing="false" text="Limpiar" />
+                  <Spinner fx:id="acantidadtxt" disable="true" editable="true" prefHeight="26.0" prefWidth="77.0" />
+                  <Button fx:id="btnAnadir" cancelButton="true" disable="true" mnemonicParsing="false" text="Añadir" />
+                  <Button fx:id="btnEditar" cancelButton="true" disable="true" mnemonicParsing="false" text="Editar" />
                </items>
             </ToolBar>
          </top>

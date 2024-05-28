@@ -2,6 +2,7 @@ module com.mycompany.projectoprogra1fx {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
+    requires java.base;
 
     // Abre el paquete Modelo a javafx.fxml para permitir acceso desde FXML
     opens Modelo to javafx.fxml, javafx.base;

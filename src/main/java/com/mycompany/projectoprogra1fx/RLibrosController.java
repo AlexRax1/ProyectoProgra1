@@ -6,6 +6,7 @@ package com.mycompany.projectoprogra1fx;
 
 import Modelo.ConexionDB;
 import Modelo.Libros;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.Date;
@@ -28,6 +29,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.time.LocalDate;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextFormatter;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -68,23 +76,23 @@ private ObservableList<Libros> librosList;
 
 //buscar
 @FXML
-private TextField bIdtxt; // id
+private TextField bIdtxt; 
 @FXML
-private TextField bNombretxt; // nombre
+private TextField bNombretxt; 
 @FXML
-private TextField bAutortxt;  // autor
+private TextField bAutortxt;  
 @FXML
-private TextField bEditorialtxt; // editorial
+private TextField bEditorialtxt; 
 @FXML
-private TextField nombretxt; // nombre
+private TextField nombretxt;
 @FXML
-private TextField autortxt;  // autor
+private TextField autortxt;  
 @FXML
-private TextField editorialtxt; // editorial
+private TextField editorialtxt; 
 @FXML
-private DatePicker  publicaciontxt;  // autor
+private DatePicker  publicaciontxt;  
 @FXML
-private Spinner<Integer> cantidadtxt; // editorial
+private Spinner<Integer> cantidadtxt; 
 
 
 @FXML
@@ -100,6 +108,14 @@ private Button btnReiniciar;
 private Button btnLimpiar;
 @FXML
 private Button btnLimpiarb;
+
+
+@FXML
+private Button btnAnadir;
+@FXML
+private Button btnEditar;
+@FXML
+private Spinner<Integer> acantidadtxt;
 
 
 
@@ -123,21 +139,64 @@ private Button btnLimpiarb;
         btnBuscar.setOnAction(e -> buscarLibros());
         btnReiniciar.setOnAction(e -> CargarLibros());
         
+        
+        //que no se pueda escribir texto
         SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE, 0);
         cantidadtxt.setValueFactory(valueFactory);
+        cantidadtxt.getEditor().setTextFormatter(new TextFormatter<>(c -> {
+            if (c.getControlNewText().matches("\\d*")) {
+                return c;
+            } else {
+                return null;
+            }
+        }));
+
+        SpinnerValueFactory<Integer> valueFactory1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE, 0);
+        acantidadtxt.setValueFactory(valueFactory1);
+        acantidadtxt.getEditor().setTextFormatter(new TextFormatter<>(c -> {
+            if (c.getControlNewText().matches("\\d*")) {
+                return c;
+            } else {
+                return null;
+            }
+        }));
+        
         
         btnLimpiar.setOnAction(e -> limpiarCampos());
         btnLimpiarb.setOnAction(e -> limpiarCamposBusqueda());
         btnAgregar.setOnAction(e -> agregarLibro());
         
         
+        btnAnadir.setOnAction(e -> AnadirInventario());
+        btnEditar.setOnAction(e -> editar());
+        
+        //al seleccionar un libro
+        tablaLibros.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        if (newValue != null) {
+            int idSeleccionado = newValue.getLibroId();
+            System.out.println("Libro ID seleccionado: " + idSeleccionado);
+            activarBotones();
+        }
+        });
     }    
+    
+    
+    private void activarBotones() {
+        btnAnadir.setDisable(false);
+        btnEditar.setDisable(false);
+        acantidadtxt.setDisable(false);
+    }
+    private void desactivarBotones() {
+        btnAnadir.setDisable(true);
+        btnEditar.setDisable(true);
+        acantidadtxt.setDisable(true);
+    }
     
     private void CargarLibros() {
         librosList.clear();
 
         Connection conn = ConexionDB.getConnection();
-        String query = "SELECT * FROM \"libros\"";
+        String query = "SELECT * FROM \"libros\" ORDER BY libro_id";
 
         try (Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
@@ -165,7 +224,7 @@ private Button btnLimpiarb;
         String autor = bAutortxt.getText();
         String editorial = bEditorialtxt.getText();
 
-        String query = "SELECT * FROM \"libros\" WHERE 1=1";
+        String query = "SELECT * FROM \"libros\" WHERE 1=1 ORDER BY libro_id";
 
         if (!id.isEmpty()) {
             query += " AND libro_id = ?";
@@ -206,7 +265,7 @@ private Button btnLimpiarb;
                 
                 librosList.add(new Libros(libroId, titulo, autorLibro, anoPub, editorialLibro, disponibles));
             }
-
+            desactivarBotones();
         } catch (SQLException e) {
         }
     }
@@ -255,4 +314,82 @@ private Button btnLimpiarb;
             e.printStackTrace();
         }
     }
+    /*por si se ocupa eliminar en tablas
+    private void eliminarLibro() {
+        Libros libroSeleccionado = tablaLibros.getSelectionModel().getSelectedItem();
+        if (libroSeleccionado != null) {
+            int idSeleccionado = libroSeleccionado.getLibroId();
+            Connection conn = ConexionDB.getConnection();
+            String query = "DELETE FROM libros WHERE libro_id = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setInt(1, idSeleccionado);
+                int filasAfectadas = stmt.executeUpdate();
+                if (filasAfectadas > 0) {
+                    System.out.println("Libro eliminado exitosamente de la base de datos.");
+                    CargarLibros();
+                } else {
+                    System.out.println("Error al eliminar el libro de la base de datos.");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("No hay ningún libro seleccionado.");
+        }
+    }*/
+    
+    private void AnadirInventario() {
+        Libros libroSeleccionado = tablaLibros.getSelectionModel().getSelectedItem();
+        int cant = acantidadtxt.getValue();
+        if (libroSeleccionado != null && cant != 0) {
+            int idSeleccionado = libroSeleccionado.getLibroId();
+            Connection conn = ConexionDB.getConnection();
+            String query = "UPDATE \"libros\" SET disponibles = disponibles + ? WHERE libro_id = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setInt(1, cant);
+                stmt.setInt(2, idSeleccionado);
+                int filasAfectadas = stmt.executeUpdate();
+                if (filasAfectadas > 0) {
+                    System.out.println("Inventario anadido exitosamente");
+                    
+                    CargarLibros();
+                } else {
+                    System.out.println("No se pudo añadir inventario");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("No hay ningún libro seleccionado.");
+        }
+    }
+    
+    
+    
+    
+    private void editar() {
+        Libros libroSeleccionado = tablaLibros.getSelectionModel().getSelectedItem();
+        if (libroSeleccionado != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("editarLibro.fxml"));
+                Parent root = loader.load();
+
+                EditarLibroController controller = loader.getController();
+                controller.setLibroSeleccionado(libroSeleccionado);
+
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setScene(new Scene(root));
+                stage.showAndWait();
+                
+                
+                CargarLibros();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    
 }

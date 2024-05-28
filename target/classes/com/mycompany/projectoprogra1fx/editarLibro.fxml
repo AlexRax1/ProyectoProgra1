@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="258.0" prefWidth="667.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.mycompany.projectoprogra1fx.EditarLibroController">
+   <children>
+      <TextField fx:id="idtxt" disable="true" layoutX="36.0" layoutY="90.0" prefHeight="25.0" prefWidth="49.0" />
+      <TextField fx:id="nombretxt" layoutX="98.0" layoutY="90.0" prefHeight="25.0" prefWidth="112.0" />
+      <Text layoutX="40.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID Libro" />
+      <TextField fx:id="autortxt" layoutX="221.0" layoutY="90.0" prefHeight="25.0" prefWidth="138.0" />
+      <TextField fx:id="editorialtxt" layoutX="498.0" layoutY="90.0" prefHeight="25.0" prefWidth="112.0" />
+      <DatePicker fx:id="fechatxt" layoutX="380.0" layoutY="90.0" prefHeight="25.0" prefWidth="104.0" />
+      <Button fx:id="btnCancelar" layoutX="142.0" layoutY="173.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="104.0" text="Cancelar" />
+      <Button fx:id="btnAceptar" layoutX="411.0" layoutY="173.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="104.0" text="Aceptar" />
+      <Text layoutX="117.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre Libro" />
+      <Text layoutX="275.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Autor" />
+      <Text layoutX="385.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha Publicacion" />
+      <Text layoutX="532.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Editorial" />
+   </children>
+</AnchorPane>
