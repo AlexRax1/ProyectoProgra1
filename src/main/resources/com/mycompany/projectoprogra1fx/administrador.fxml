@@ -22,7 +22,6 @@
                   <Tab fx:id="PagosTab" closable="false" text="Pagos" />
                   <Tab fx:id="UsuariosTab" closable="false" text="Usuarios" />
                   <Tab fx:id="rLibrosTab" closable="false" text="Registrar libros" />
-                  <Tab fx:id="aLibrosTab" closable="false" text="Anadir libros" />
                   <Tab fx:id="DevolucionesTab" closable="false" text="Devoluciones" />
                   <Tab fx:id="HistorialTab" closable="false" text="Historial" />
                </tabs>

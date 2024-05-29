@@ -37,8 +37,6 @@ public class AdministradorController implements Initializable {
     @FXML
     private Tab rLibrosTab;
     @FXML
-    private Tab aLibrosTab;
-    @FXML
     private Tab HistorialTab;
 
     @Override
@@ -65,10 +63,6 @@ public class AdministradorController implements Initializable {
             rLibrosTab.setContent(tab5Content);
 
             // Load Tab 6 content
-            AnchorPane tab6Content = FXMLLoader.load(getClass().getResource("aLibros.fxml"));
-            aLibrosTab.setContent(tab6Content);
-            
-            // Load Tab 7 content
             AnchorPane tab7Content = FXMLLoader.load(getClass().getResource("historial.fxml"));
             HistorialTab.setContent(tab7Content);
 
