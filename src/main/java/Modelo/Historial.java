@@ -5,6 +5,7 @@
 package Modelo;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 /**
  *
@@ -14,9 +15,9 @@ public class Historial {
     private int transaccion_id;
     private int prestamo_id;
     private String accion;
-    private Timestamp fecha_transaccion;
+    private LocalDate fecha_transaccion;
 
-    public Historial(int transaccion_id, int prestamo_id, String accion, Timestamp fecha_transaccion) {
+    public Historial(int transaccion_id, int prestamo_id, String accion, LocalDate fecha_transaccion) {
         this.transaccion_id = transaccion_id;
         this.prestamo_id = prestamo_id;
         this.accion = accion;
@@ -47,13 +48,14 @@ public class Historial {
         this.accion = accion;
     }
 
-    public Timestamp getFecha_transaccion() {
+    public LocalDate getFecha_transaccion() {
         return fecha_transaccion;
     }
 
-    public void setFecha_transaccion(Timestamp fecha_transaccion) {
+    public void setFecha_transaccion(LocalDate fecha_transaccion) {
         this.fecha_transaccion = fecha_transaccion;
     }
+
     
     
     

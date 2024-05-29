@@ -7,8 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import prueba.Cursos;
-import prueba.CursosDB;
+
 
 
 

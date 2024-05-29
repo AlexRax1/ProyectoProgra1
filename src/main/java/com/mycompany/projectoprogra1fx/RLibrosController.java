@@ -161,7 +161,7 @@ private Spinner<Integer> acantidadtxt;
             }
         }));
         
-        
+   
         btnLimpiar.setOnAction(e -> limpiarCampos());
         btnLimpiarb.setOnAction(e -> limpiarCamposBusqueda());
         btnAgregar.setOnAction(e -> agregarLibro());
@@ -219,28 +219,34 @@ private Spinner<Integer> acantidadtxt;
     private void buscarLibros() {
         librosList.clear();
         Connection conn = ConexionDB.getConnection();
+
         String id = bIdtxt.getText();
         String nombre = bNombretxt.getText();
         String autor = bAutortxt.getText();
         String editorial = bEditorialtxt.getText();
 
-        String query = "SELECT * FROM \"libros\" WHERE 1=1 ORDER BY libro_id";
+        StringBuilder query = new StringBuilder("SELECT * FROM \"libros\" WHERE 1=1");
 
+        // Añadir condiciones basadas en la entrada del usuario
         if (!id.isEmpty()) {
-            query += " AND libro_id = ?";
+            query.append(" AND libro_id = ?");
         }
         if (!nombre.isEmpty()) {
-            query += " AND LOWER(titulo) LIKE LOWER(?)";
+            query.append(" AND LOWER(titulo) LIKE LOWER(?)");
         }
         if (!autor.isEmpty()) {
-            query += " AND LOWER(autor) LIKE LOWER(?)";
+            query.append(" AND LOWER(autor) LIKE LOWER(?)");
         }
         if (!editorial.isEmpty()) {
-            query += " AND LOWER(editorial) LIKE LOWER(?)";
+            query.append(" AND LOWER(editorial) LIKE LOWER(?)");
         }
 
-        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+        query.append(" ORDER BY libro_id");
+
+        try (PreparedStatement stmt = conn.prepareStatement(query.toString())) {
             int paramIndex = 1;
+
+            // Asignar valores a los parámetros en el PreparedStatement
             if (!id.isEmpty()) {
                 stmt.setInt(paramIndex++, Integer.parseInt(id));
             }
@@ -262,11 +268,12 @@ private Spinner<Integer> acantidadtxt;
                 LocalDate anoPub = rs.getObject("anopublicacion", LocalDate.class);
                 String editorialLibro = rs.getString("editorial");
                 int disponibles = rs.getInt("disponibles");
-                
+
                 librosList.add(new Libros(libroId, titulo, autorLibro, anoPub, editorialLibro, disponibles));
             }
             desactivarBotones();
         } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
     
@@ -360,7 +367,7 @@ private Spinner<Integer> acantidadtxt;
                 e.printStackTrace();
             }
         } else {
-            System.out.println("No hay ningún libro seleccionado.");
+            System.out.println("No se ha ingresado una cantidad valida");
         }
     }
     

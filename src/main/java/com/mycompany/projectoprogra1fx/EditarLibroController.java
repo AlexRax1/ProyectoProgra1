@@ -44,6 +44,7 @@ private Button btnCancelar;
 @FXML
 private Button btnAceptar;
 
+
     // Otros campos de texto y controles necesarios
 
     private Libros libroSeleccionado;
@@ -55,7 +56,6 @@ private Button btnAceptar;
     }
 
     public void initialize(URL url, ResourceBundle rb) {
-        // Configurar el spinner
 
         btnCancelar.setOnAction(e -> cancelar());
         btnAceptar.setOnAction(e -> guardar());

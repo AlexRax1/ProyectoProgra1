@@ -5,7 +5,7 @@
 package Modelo;
 
 import java.sql.Date;
-import java.sql.Timestamp;
+import java.time.LocalDate;
 
 /**
  *
@@ -15,11 +15,11 @@ public class Prestamos {
     private int prestamo_id;
     private int libro_id;
     private int usuario_id;
-    private Timestamp fecha_prestamo;
-    private Date fecha_vencimiento;
-    private Date fecha_devolucion;
+    private LocalDate fecha_prestamo;
+    private LocalDate fecha_vencimiento;
+    private LocalDate fecha_devolucion;
 
-    public Prestamos(int prestamo_id, int libro_id, int usuario_id, Timestamp fecha_prestamo, Date fecha_vencimiento, Date fecha_devolucion) {
+    public Prestamos(int prestamo_id, int libro_id, int usuario_id, LocalDate fecha_prestamo, LocalDate fecha_vencimiento, LocalDate fecha_devolucion) {
         this.prestamo_id = prestamo_id;
         this.libro_id = libro_id;
         this.usuario_id = usuario_id;
@@ -52,29 +52,30 @@ public class Prestamos {
         this.usuario_id = usuario_id;
     }
 
-    public Timestamp getFecha_prestamo() {
+    public LocalDate getFecha_prestamo() {
         return fecha_prestamo;
     }
 
-    public void setFecha_prestamo(Timestamp fecha_prestamo) {
+    public void setFecha_prestamo(LocalDate fecha_prestamo) {
         this.fecha_prestamo = fecha_prestamo;
     }
 
-    public Date getFecha_vencimiento() {
+    public LocalDate getFecha_vencimiento() {
         return fecha_vencimiento;
     }
 
-    public void setFecha_vencimiento(Date fecha_vencimiento) {
+    public void setFecha_vencimiento(LocalDate fecha_vencimiento) {
         this.fecha_vencimiento = fecha_vencimiento;
     }
 
-    public Date getFecha_devolucion() {
+    public LocalDate getFecha_devolucion() {
         return fecha_devolucion;
     }
 
-    public void setFecha_devolucion(Date fecha_devolucion) {
+    public void setFecha_devolucion(LocalDate fecha_devolucion) {
         this.fecha_devolucion = fecha_devolucion;
     }
+
     
     
     
