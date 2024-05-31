@@ -19,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import Modelo.ConexionDB;
 import java.io.IOException;
+import Modelo.UsuarioGlobal;
 /**
  * FXML Controller class
  *
@@ -56,14 +57,16 @@ public class InicioController implements Initializable {
 
         int usuario_id = Integer.parseInt(usuario);
 
-        // Hacer la consulta a la base de datos
         int resultado = autenticarUsuario(usuario_id, contrasena);
-// esto es para que me funcione el commit
+        
+        UsuarioGlobal usuariog = UsuarioGlobal.getInstance();
         switch (resultado) {
             case 0:
+                usuariog.setIdUsuario(usuario_id);
                 App.setRoot("administrador");
                 break;
             case 1:
+                usuariog.setIdUsuario(usuario_id);
                 App.setRoot("secondary");
                 break;
             default:
@@ -74,10 +77,7 @@ public class InicioController implements Initializable {
 
     Connection conn = ConexionDB.getConnection();
     private int autenticarUsuario(int usuario, String contrasena) {
- 
-        
-        
-        
+  
         boolean rol;
         String query = "SELECT es_administrador FROM \"usuarios\" WHERE usuario_id = ? AND contrasena = ?";
         try {
@@ -91,11 +91,9 @@ public class InicioController implements Initializable {
                 int rol1 = rol ? 1 : 0;
                 return rol1;
             } else {
-                System.out.println("se ejecuta el else");
                 return 2;
             }
         } catch (SQLException e) {
-            System.out.println("se ejecuta el catch");
             showAlert(Alert.AlertType.ERROR, "Error", "Error de conexión a la base de datos");
             return 2;
         } 

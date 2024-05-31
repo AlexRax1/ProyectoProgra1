@@ -117,6 +117,15 @@ private Button btnAceptar;
             int filasAfectadas = stmt.executeUpdate();
             if (filasAfectadas > 0) {
                 limpiarCampos();
+                
+                // Insertar en historial_transacciones
+                String queryInsertHistorial = "INSERT INTO historial_transacciones(usuario_id, accion) VALUES (?, 'PagoRealizado')";
+                try (PreparedStatement stmtHistorial = conn.prepareStatement(queryInsertHistorial)) {
+                    stmtHistorial.setInt(1, usuarioId);
+                    stmtHistorial.executeUpdate();
+                }
+                
+                
                 mostrarAlertaExito("Pago realizado", "El pago se realizó correctamente.");
             } else {
                 mostrarAlertaError("Error en el pago", "No se pudo realizar el pago.");

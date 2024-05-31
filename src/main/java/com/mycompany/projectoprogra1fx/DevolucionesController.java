@@ -11,6 +11,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -33,6 +35,8 @@ public class DevolucionesController implements Initializable {
 //buscar
 @FXML
 private TextField bIdtxt; 
+@FXML
+private TextField bIdPrestamotxt; 
 @FXML
 private TextField bNombretxt; 
 @FXML
@@ -83,27 +87,23 @@ private Button btnDevolucion;
             // Verificar si se encontró un usuario con el ID especificado
             if (rsUsuario.next()) {
                 // Asignar los valores obtenidos a los campos de texto
-                
+
                 // Consulta SQL para verificar préstamos del usuario
-                String queryPrestamos = "SELECT fecha_devolucion FROM \"prestamos\" WHERE usuario_id = ?";
+                String queryPrestamos = "SELECT prestamo_id FROM \"prestamos\" WHERE usuario_id = ? AND fecha_devolucion IS NULL";
                 try (PreparedStatement stmtPrestamos = conn.prepareStatement(queryPrestamos)) {
                     stmtPrestamos.setInt(1, Integer.parseInt(id));
 
                     ResultSet rsPrestamos = stmtPrestamos.executeQuery();
 
-                    boolean tienePrestamosPendientes = false;
-                    while (rsPrestamos.next()) {
-                        Date fechaDevolucion = rsPrestamos.getDate("fecha_devolucion");
-                        if (fechaDevolucion == null) {
-                            tienePrestamosPendientes = true;
-                            break;
-                        }
-                    }
-                    if (tienePrestamosPendientes) {
-                        bIdtxt.setEditable(false);
+                    if (rsPrestamos.next()) {
+                        // Obtener el prestamo_id del préstamo con fecha_devolucion nula
+                        int prestamoId = rsPrestamos.getInt("prestamo_id");
+                        
                         bNombretxt.setText(rsUsuario.getString("nombre"));
                         bTelefonotxt.setText(rsUsuario.getString("telefono"));
                         bEmailtxt.setText(rsUsuario.getString("email"));
+                        bIdtxt.setEditable(false);
+                        bIdPrestamotxt.setText(String.valueOf(prestamoId));  // Asegúrate de tener un TextField llamado bIdPrestamotxt
                     } else {
                         mostrarAlertaError("Sin préstamos pendientes", "El usuario no tiene préstamos pendientes.");
                     }
@@ -121,12 +121,91 @@ private Button btnDevolucion;
     }
     
     
-    private void devolver(){
+    private void devolver() {
+        // Obtener los valores de los campos de texto
         int idUsuario = Integer.parseInt(bIdtxt.getText());
-        
-        
-        
-        
+        int idPrestamo = Integer.parseInt(bIdPrestamotxt.getText());
+
+        // Obtener la fecha actual
+        LocalDate fechaActual = LocalDate.now();
+        // Multa por día en caso de retraso
+        float multaDia = 30.0f;
+        float multaTotal = 0.0f;
+
+        Connection conn = ConexionDB.getConnection();
+
+        try {
+            // Iniciar una transacción
+            conn.setAutoCommit(false);
+            
+
+            // Actualizar la fecha de devolución del préstamo
+            String queryUpdateFechaDevolucion = "UPDATE prestamos SET fecha_devolucion = ? WHERE prestamo_id = ?";
+            try (PreparedStatement stmtFechaDevolucion = conn.prepareStatement(queryUpdateFechaDevolucion)) {
+                stmtFechaDevolucion.setDate(1, Date.valueOf(fechaActual));
+                stmtFechaDevolucion.setInt(2, idPrestamo);
+                stmtFechaDevolucion.executeUpdate();
+            }
+
+            // Obtener la fecha de vencimiento para calcular la multa
+            String queryFechas = "SELECT fecha_vencimiento FROM prestamos WHERE prestamo_id = ?";
+            LocalDate fechaVencimiento = null;
+            try (PreparedStatement stmtFechas = conn.prepareStatement(queryFechas)) {
+                stmtFechas.setInt(1, idPrestamo);
+                ResultSet rsFechas = stmtFechas.executeQuery();
+                if (rsFechas.next()) {
+                    fechaVencimiento = rsFechas.getDate("fecha_vencimiento").toLocalDate();
+                }
+            }
+
+            // Calcular multa si la fecha de devolución es después de la fecha de vencimiento
+            if (fechaActual.isAfter(fechaVencimiento)) {
+                long diasAtraso = ChronoUnit.DAYS.between(fechaVencimiento, fechaActual);
+                multaTotal = diasAtraso * multaDia;
+
+                // Actualizar el saldo del usuario con la multa
+                String queryUpdateSaldo = "UPDATE usuarios SET saldo = saldo + ? WHERE usuario_id = ?";
+                try (PreparedStatement stmtUpdateSaldo = conn.prepareStatement(queryUpdateSaldo)) {
+                    stmtUpdateSaldo.setFloat(1, multaTotal);
+                    stmtUpdateSaldo.setInt(2, idUsuario);
+                    stmtUpdateSaldo.executeUpdate();
+                }
+            }
+
+            // Actualizar la disponibilidad del libro
+            String queryUpdateDisponibles = "UPDATE libros SET disponibles = disponibles + 1 WHERE libro_id = (SELECT libro_id FROM prestamos WHERE prestamo_id = ?)";
+            try (PreparedStatement stmtUpdateDisponibles = conn.prepareStatement(queryUpdateDisponibles)) {
+                stmtUpdateDisponibles.setInt(1, idPrestamo);
+                stmtUpdateDisponibles.executeUpdate();
+            }
+            
+            // Insertar en historial_transacciones
+            String queryInsertHistorial = "INSERT INTO historial_transacciones(prestamo_id, accion) VALUES (?, 'devolucion de libro')";
+            try (PreparedStatement stmtHistorial = conn.prepareStatement(queryInsertHistorial)) {
+                stmtHistorial.setInt(1, idPrestamo);
+                stmtHistorial.executeUpdate();
+            }
+
+            // Confirmar la transacción
+            conn.commit();
+            limpiar();
+            mostrarAlertaExito("Devolución Exitosa", "El libro ha sido devuelto correctamente.");
+        } catch (SQLException e) {
+            try {
+                // Revertir la transacción en caso de error
+                conn.rollback();
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
+            e.printStackTrace();
+            mostrarAlertaError("Error en la Devolución", "Se produjo un error al devolver el libro.");
+        } finally {
+            try {
+                conn.setAutoCommit(true);
+            } catch (SQLException autoCommitEx) {
+                autoCommitEx.printStackTrace();
+            }
+        }
     }
     
     private void limpiar(){
@@ -135,6 +214,7 @@ private Button btnDevolucion;
         bNombretxt.clear();
         bTelefonotxt.clear();
         bEmailtxt.clear();
+        bIdPrestamotxt.clear();
         
     }
     

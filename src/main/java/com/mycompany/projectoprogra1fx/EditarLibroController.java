@@ -6,6 +6,7 @@ package com.mycompany.projectoprogra1fx;
 
 import Modelo.ConexionDB;
 import Modelo.Libros;
+import Modelo.UsuarioGlobal;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.Date;
@@ -16,6 +17,7 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.SpinnerValueFactory;
@@ -96,9 +98,20 @@ private Button btnAceptar;
 
             int filasAfectadas = stmt.executeUpdate();
             if (filasAfectadas > 0) {
-                System.out.println("Libro actualizado exitosamente.");
+                // Insertar en historial_transacciones
+                    UsuarioGlobal usuariog = UsuarioGlobal.getInstance();
+                    int usuarioga = usuariog.getIdUsuario();
+    String queryInsertHistorial = "INSERT INTO historial_transacciones (usuario_id, accion) VALUES (?, 'se edito el libro: ' || ?);";
+                    try (PreparedStatement stmtHistorial = conn.prepareStatement(queryInsertHistorial)) {
+                        stmtHistorial.setInt(1, usuarioga);
+                        stmtHistorial.setInt(2, libroId);
+                        stmtHistorial.executeUpdate();
+                    }
+                
+                
+                mostrarAlertaExito("Exito", "El libro se edito correctamente.");
             } else {
-                System.out.println("Error al actualizar el libro.");
+                mostrarAlertaError("Error", "Error al actualizar el libro.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -114,5 +127,26 @@ private Button btnAceptar;
         Stage stage = (Stage) nombretxt.getScene().getWindow();
         stage.close();
     }
-     
+ 
+    private void mostrarAlertaError(String titulo, String mensaje) {
+        Alert alerta = new Alert(Alert.AlertType.ERROR);
+        alerta.setTitle("Error");
+        alerta.setHeaderText(titulo);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
+        //mostrarAlertaError("Error", "Se produjo un error en la base de datos.");
+
+    }
+
+    private void mostrarAlertaExito(String titulo, String mensaje) {
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle("Éxito");
+        alerta.setHeaderText(titulo);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
+        //mostrarAlertaExito("Exito", "Se produjo un error en la base de datos.");
+
+    }
+
+    
 }

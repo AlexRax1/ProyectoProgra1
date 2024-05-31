@@ -283,12 +283,18 @@ private Button btnLimpiarb;
 
                                 int filasAfectadas = insertStmt.executeUpdate();
                                 if (filasAfectadas > 0) {
-                                    System.out.println("Libro agregado exitosamente a la base de datos.");
+                                    
+                                    // Insertar en historial_transacciones
+                                    String queryInsertHistorial = "INSERT INTO historial_transacciones(usuario_id, accion) VALUES (?, 'Prestamo Realizado')";
+                                    try (PreparedStatement stmtHistorial = conn.prepareStatement(queryInsertHistorial)) {
+                                        stmtHistorial.setInt(1, idUsuario);
+                                        stmtHistorial.executeUpdate();
+                                    }                                    
                                     mostrarAlertaExito("Exito", "Prestamo agregado exitosamente a la base de datos.");
                                     limpiarCampos();
                                     CargarLibros();
                                 } else {
-                                    System.out.println("Error al agregar el libro a la base de datos.");
+                                    mostrarAlertaError("Error", "Error al agregar a la base de datos.");
                                 }
                             }
                         } else {
@@ -317,6 +323,8 @@ private Button btnLimpiarb;
         alerta.setHeaderText(titulo);
         alerta.setContentText(mensaje);
         alerta.showAndWait();
+        //mostrarAlertaError("Error", "Se produjo un error en la base de datos.");
+
     }
 
     private void mostrarAlertaExito(String titulo, String mensaje) {
@@ -325,5 +333,7 @@ private Button btnLimpiarb;
         alerta.setHeaderText(titulo);
         alerta.setContentText(mensaje);
         alerta.showAndWait();
+        //mostrarAlertaExito("Exito", "Se produjo un error en la base de datos.");
+
     }
 }

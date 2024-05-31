@@ -22,26 +22,10 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         
         
-        scene = new Scene(loadFXML("administrador")); 
+        scene = new Scene(loadFXML("inicio")); 
         stage.setScene(scene);
         stage.show();
         
-        
-        
-        //codigo original que me dio
-        /*
-        
-        scene = new Scene(loadFXML("Login"), 640, 480);
-        stage.setScene(scene);
-        stage.show();
-        
-        
-        //este codigo solo es un recordatorio(no tiene nada que ver)
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Login.fxml"));
-        Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.show();        
-        */
         
     }
 
@@ -55,11 +39,7 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        //CursosDB cursosDb = new CursosDB();
-        
-        //Insertar registro
-        //Cursos e1 = new Cursos("75944000", "Estadistica", "Perez1");
-        //cursosDb.agregar(e1);
+
         
         
         launch();

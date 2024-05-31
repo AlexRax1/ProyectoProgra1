@@ -6,6 +6,7 @@ package com.mycompany.projectoprogra1fx;
 
 import Modelo.ConexionDB;
 import Modelo.Libros;
+import Modelo.UsuarioGlobal;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -314,13 +315,25 @@ private Spinner<Integer> acantidadtxt;
 
             int filasAfectadas = stmt.executeUpdate();
             if (filasAfectadas > 0) {
-                System.out.println("Libro agregado exitosamente a la base de datos.");
+                // Insertar en historial_transacciones
+                    UsuarioGlobal usuariog = UsuarioGlobal.getInstance();
+                    int usuarioga = usuariog.getIdUsuario();
+    String queryInsertHistorial = "INSERT INTO historial_transacciones (usuario_id, accion) VALUES (?, 'se anadió a inventario del libro: ' || ?);";
+                    try (PreparedStatement stmtHistorial = conn.prepareStatement(queryInsertHistorial)) {
+                        stmtHistorial.setInt(1, usuarioga);
+                        stmtHistorial.setString(2, titulo);
+                        stmtHistorial.executeUpdate();
+                    }
+                
+                
+                mostrarAlertaExito("Exito", "El libro se agrego exitosamente."); 
                 limpiarCampos();
                 CargarLibros();
             } else {
-                System.out.println("Error al agregar el libro a la base de datos.");
+                mostrarAlertaError("Error", "No se pudo agregar a la base de datos."); 
             }
         } catch (SQLException e) {
+            mostrarAlertaError("Error", "No se pudo agregar a la base de datos."); 
             e.printStackTrace();
         }
     }
@@ -360,17 +373,29 @@ private Spinner<Integer> acantidadtxt;
                 stmt.setInt(2, idSeleccionado);
                 int filasAfectadas = stmt.executeUpdate();
                 if (filasAfectadas > 0) {
-                    System.out.println("Inventario anadido exitosamente");
+                    
+                    // Insertar en historial_transacciones
+                    UsuarioGlobal usuariog = UsuarioGlobal.getInstance();
+                    int usuarioga = usuariog.getIdUsuario();
+    String queryInsertHistorial = "INSERT INTO historial_transacciones (usuario_id, accion) VALUES (?, 'se anadió a inventario del libro: ' || ?);";
+                    try (PreparedStatement stmtHistorial = conn.prepareStatement(queryInsertHistorial)) {
+                        stmtHistorial.setInt(1, usuarioga);
+                        stmtHistorial.setInt(2, idSeleccionado);
+                        stmtHistorial.executeUpdate();
+                    }
+                    
+                    
+                    mostrarAlertaExito("Exito", "Inventario anadido exitosamente.");
                     
                     CargarLibros();
                 } else {
-                    System.out.println("No se pudo añadir inventario");
+                    mostrarAlertaError("Error", "No se pudo anadir a inventario.");
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         } else {
-            System.out.println("No se ha ingresado una cantidad valida");
+            mostrarAlertaError("Error", "No se a ingresado una cantidad valida.");         
         }
     }
     
@@ -399,6 +424,26 @@ private Spinner<Integer> acantidadtxt;
                 e.printStackTrace();
             }
         }
+    }
+    
+    private void mostrarAlertaError(String titulo, String mensaje) {
+        Alert alerta = new Alert(Alert.AlertType.ERROR);
+        alerta.setTitle("Error");
+        alerta.setHeaderText(titulo);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
+        //mostrarAlertaError("Error", "Se produjo un error en la base de datos.");
+
+    }
+
+    private void mostrarAlertaExito(String titulo, String mensaje) {
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle("Éxito");
+        alerta.setHeaderText(titulo);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
+        //mostrarAlertaExito("Exito", "Se produjo un error en la base de datos.");
+
     }
     
     

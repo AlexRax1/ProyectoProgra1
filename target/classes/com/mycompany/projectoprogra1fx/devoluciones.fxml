@@ -49,5 +49,11 @@
             <Font size="17.0" />
          </font>
       </Button>
+      <TextField fx:id="bIdPrestamotxt" editable="false" layoutX="339.0" layoutY="226.0" prefHeight="25.0" prefWidth="108.0" promptText="id prestamo" />
+      <Text layoutX="210.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Id del presamo:">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>
