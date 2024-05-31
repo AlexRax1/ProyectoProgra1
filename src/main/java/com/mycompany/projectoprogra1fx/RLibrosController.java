@@ -83,6 +83,8 @@ private TextField bNombretxt;
 private TextField bAutortxt;  
 @FXML
 private TextField bEditorialtxt; 
+
+//agregar
 @FXML
 private TextField nombretxt;
 @FXML
@@ -210,6 +212,7 @@ private Spinner<Integer> acantidadtxt;
                 int disponibles = rs.getInt("disponibles");
 
                 librosList.add(new Libros(libroId, titulo, autor, anoPublicacion, editorial, disponibles));
+                desactivarBotones();
             }
 
         } catch (Exception e) {

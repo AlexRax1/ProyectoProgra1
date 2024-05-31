@@ -18,12 +18,12 @@
          <center>
             <TableView fx:id="tablaLibros" editable="true" prefHeight="400.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                <columns>
-                  <TableColumn fx:id="idColumna" prefWidth="85.0" text="id" />
-                  <TableColumn fx:id="nombreColumna" prefWidth="333.0" text="Nombre" />
-                  <TableColumn fx:id="autorColumna" prefWidth="194.0" text="Author" />
-                  <TableColumn fx:id="anoColumna" prefWidth="195.0" text="Año de publicacion" />
-                  <TableColumn fx:id="editorialColumna" prefWidth="250.0" text="Editorial" />
-                  <TableColumn fx:id="cantidadColumna" prefWidth="142.0" text="Cantidad disponibles" />
+                  <TableColumn fx:id="idColumna" prefWidth="85.0" resizable="false" text="id" />
+                  <TableColumn fx:id="nombreColumna" prefWidth="333.0" resizable="false" text="Nombre" />
+                  <TableColumn fx:id="autorColumna" prefWidth="194.0" resizable="false" text="Author" />
+                  <TableColumn fx:id="anoColumna" prefWidth="195.0" resizable="false" text="Año de publicacion" />
+                  <TableColumn fx:id="editorialColumna" prefWidth="250.0" resizable="false" text="Editorial" />
+                  <TableColumn fx:id="cantidadColumna" prefWidth="142.0" resizable="false" text="Cantidad disponibles" />
                </columns>
             </TableView>
          </center>
