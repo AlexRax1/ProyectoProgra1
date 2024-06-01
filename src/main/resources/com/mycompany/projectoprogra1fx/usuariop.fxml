@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="750.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.projectoprogra1fx.UsuariopController">
+   <children>
+      <BorderPane prefHeight="616.0" prefWidth="914.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <TabPane cacheShape="false" opacity="0.99" prefHeight="558.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+               <tabs>
+                  <Tab fx:id="PrestamosTab" closable="false" text="Prestamos" />
+                  <Tab fx:id="PagosTab" closable="false" text="Pagos" />
+                  <Tab fx:id="DevolucionesTab" closable="false" text="Devoluciones" />
+                  <Tab fx:id="HistorialTab" closable="false" text="Historial" />
+               </tabs>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </TabPane>
+         </center>
+         <top>
+            <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="99.0" prefWidth="1200.0" style="-fx-background-color: #30373e;" BorderPane.alignment="CENTER">
+               <items>
+                  <Button fx:id="btnCerrar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="btn" text="Cerrar Secion">
+                     <graphic>
+                        <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true" />
+                     </graphic>
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="usernameLabel" prefHeight="17.0" prefWidth="863.0" />
+                  <AnchorPane prefHeight="46.0" prefWidth="206.0">
+                     <children>
+                        <Label fx:id="gusuariotxt" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="30.0" layoutY="14.0" textFill="WHITE">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="gnombretxt" layoutX="34.0" layoutY="48.0" textFill="WHITE">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Text fill="WHITE" layoutX="111.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Usuario" wrappingWidth="73.2578125">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                        <Text fill="WHITE" layoutX="107.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre" wrappingWidth="73.2578125">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </AnchorPane>
+               </items>
+               <styleClass>
+                  <String fx:value="dark-bg" />
+                  <String fx:value="btn--dark" />
+               </styleClass>
+            </ToolBar>
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>

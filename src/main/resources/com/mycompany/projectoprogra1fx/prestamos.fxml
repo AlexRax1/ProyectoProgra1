@@ -38,7 +38,6 @@
                      </graphic>
                   </Button>
                   <TextField fx:id="idUsuariotxt" promptText="idUsuariotxt" />
-                  <TextField fx:id="nombretxt" promptText="Nombre" />
                   <Button fx:id="btnLimpiar" cancelButton="true" mnemonicParsing="false" text="Limpiar" />
                </items>
             </ToolBar>

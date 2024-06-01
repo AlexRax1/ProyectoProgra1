@@ -6,6 +6,7 @@ package com.mycompany.projectoprogra1fx;
 
 import Modelo.ConexionDB;
 import Modelo.Libros;
+import Modelo.UsuarioGlobal;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.Date;
@@ -21,8 +22,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Spinner;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -33,12 +32,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
  *
  * @author alex1
  */
-public class PrestamosController implements Initializable {
+public class UprestamosController implements Initializable {
 
     /**
      * Initializes the controller class.
      */
-    
     
 @FXML
 private TableView<Libros> tablaLibros;
@@ -75,6 +73,8 @@ private TextField bEditorialtxt;
 
 //usuarios
 @FXML
+private TextField nombretxt;
+@FXML
 private TextField idUsuariotxt;  
 
 
@@ -88,16 +88,16 @@ private Button btnReiniciar;
 
 
 
-@FXML
-private Button btnLimpiar;
+
 @FXML
 private Button btnLimpiarb;
 
-
-
-
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        // TODO
+        
         idColumna.setCellValueFactory(new PropertyValueFactory<>("libroId"));
         nombreColumna.setCellValueFactory(new PropertyValueFactory<>("titulo"));
         autorColumna.setCellValueFactory(new PropertyValueFactory<>("autor"));
@@ -116,9 +116,15 @@ private Button btnLimpiarb;
         btnReiniciar.setOnAction(e -> CargarLibros());
         
         
-        btnLimpiar.setOnAction(e -> limpiarCampos());
         btnLimpiarb.setOnAction(e -> limpiarCamposBusqueda());
         btnPrestamo.setOnAction(e -> agregarPrestamo());
+        
+        
+        
+            UsuarioGlobal usuario = UsuarioGlobal.getInstance();
+            int valorActual = usuario.getIdUsuario();
+            idUsuariotxt.setText(valorActual + "");
+        
         
         tablaLibros.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
         if (newValue != null) {
@@ -127,6 +133,8 @@ private Button btnLimpiarb;
             activarBotones();
         }
         });
+        
+        
     }    
     
     
@@ -234,9 +242,7 @@ private Button btnLimpiarb;
         bAutortxt.clear();
         bEditorialtxt.clear();
     }
-    private void limpiarCampos() {
-        idUsuariotxt.clear();
-    }
+
     
     private void agregarPrestamo() {
         Libros libroSeleccionado = tablaLibros.getSelectionModel().getSelectedItem();
@@ -298,7 +304,6 @@ private Button btnLimpiarb;
                                         stmtHistorial.executeUpdate();
                                     }                                    
                                     mostrarAlertaExito("Exito", "Prestamo agregado exitosamente a la base de datos.");
-                                    limpiarCampos();
                                     CargarLibros();
                                 } else {
                                     mostrarAlertaError("Error", "Error al agregar a la base de datos.");
@@ -343,4 +348,5 @@ private Button btnLimpiarb;
         //mostrarAlertaExito("Exito", "Se produjo un error en la base de datos.");
 
     }
+    
 }

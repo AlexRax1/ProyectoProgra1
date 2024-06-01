@@ -10,7 +10,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<AnchorPane prefHeight="525.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.projectoprogra1fx.HistorialController">
+
+<AnchorPane prefHeight="525.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.projectoprogra1fx.UhistorialController">
    <children>
       <BorderPane prefHeight="531.0" prefWidth="961.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
@@ -31,7 +32,6 @@
             <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <items>
                   <TextField fx:id="idUsuariotxt" promptText="id Usuario" />
-                  <TextField fx:id="nombretxt" promptText="Nombre Usuario" />
                   <Button fx:id="btnBuscar" mnemonicParsing="false" text="Buscar">
                      <graphic>
                         <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
@@ -50,7 +50,6 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="btnLimpiarb" cancelButton="true" mnemonicParsing="false" text="Limpiar" />
                </items>
             </ToolBar>
          </top>
