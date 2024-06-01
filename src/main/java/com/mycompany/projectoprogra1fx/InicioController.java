@@ -91,10 +91,6 @@ public class InicioController implements Initializable {
 
                 if (resultSet.next()) {
                     rol = resultSet.getBoolean("es_administrador");
-                    System.out.println("Rol: " + rol);
-                    System.out.println("Rol: " + rol);
-                    System.out.println("Rol: " + rol);
-                    System.out.println("Rol: " + rol);
                     int rol1 = rol ? 1 : 0;
                     return rol1;
                 } else {

@@ -1,7 +1,11 @@
+Modelo\UsuarioGlobal.class
+com\mycompany\projectoprogra1fx\UsuariopController.class
 prueba\Cursos.class
+com\mycompany\projectoprogra1fx\UhistorialController.class
 com\mycompany\projectoprogra1fx\AlibrosController.class
 com\mycompany\projectoprogra1fx\RLibrosController.class
 com\mycompany\projectoprogra1fx\UsuariosController.class
+com\mycompany\projectoprogra1fx\UprestamosController.class
 com\mycompany\projectoprogra1fx\PrestamosController.class
 Modelo\Historial.class
 com\mycompany\projectoprogra1fx\HistorialController.class
@@ -14,8 +18,10 @@ Modelo\Prestamos.class
 prueba\CursosDB.class
 module-info.class
 Modelo\Usuarios.class
+com\mycompany\projectoprogra1fx\UdevolucionesController.class
 com\mycompany\projectoprogra1fx\EditarLibroController.class
 prueba\ConexionBD1.class
 com\mycompany\projectoprogra1fx\DevolucionesController.class
 Modelo\ConexionDB.class
 com\mycompany\projectoprogra1fx\PagosController.class
+com\mycompany\projectoprogra1fx\UpagosController.class
