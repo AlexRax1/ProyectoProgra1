@@ -120,7 +120,7 @@ private Button btnLimpiarb;
         
         btnLimpiar.setOnAction(e -> limpiarCampos());
         btnLimpiarb.setOnAction(e -> limpiarCamposBusqueda());
-        btnPrestamo.setOnAction(e -> agregarLibro());
+        btnPrestamo.setOnAction(e -> agregarPrestamo());
         
         tablaLibros.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
         if (newValue != null) {
@@ -241,7 +241,7 @@ private Button btnLimpiarb;
         idUsuariotxt.clear();
     }
     
-    private void agregarLibro() {
+    private void agregarPrestamo() {
         Libros libroSeleccionado = tablaLibros.getSelectionModel().getSelectedItem();
         int idSeleccionado = libroSeleccionado.getLibroId();
         int idUsuario = Integer.parseInt(idUsuariotxt.getText());
@@ -283,6 +283,16 @@ private Button btnLimpiarb;
 
                                 int filasAfectadas = insertStmt.executeUpdate();
                                 if (filasAfectadas > 0) {
+                                    
+                                    
+                                    // Actualizar la disponibilidad del libro
+                                    String queryUpdateDisponibles = "UPDATE libros SET disponibles = disponibles - 1 WHERE libro_id = ?";
+                                    try (PreparedStatement stmtUpdateDisponibles = conn.prepareStatement(queryUpdateDisponibles)) {
+                                        stmtUpdateDisponibles.setInt(1, idSeleccionado);
+                                        stmtUpdateDisponibles.executeUpdate();
+                                    }
+                                    
+                                    
                                     
                                     // Insertar en historial_transacciones
                                     String queryInsertHistorial = "INSERT INTO historial_transacciones(usuario_id, accion) VALUES (?, 'Prestamo Realizado')";

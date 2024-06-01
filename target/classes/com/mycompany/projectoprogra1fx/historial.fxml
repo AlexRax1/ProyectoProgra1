@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-
 <AnchorPane prefHeight="525.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.projectoprogra1fx.HistorialController">
    <children>
       <BorderPane prefHeight="531.0" prefWidth="961.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -18,11 +17,10 @@
             <TableView fx:id="tablaHistorial" editable="true" prefHeight="400.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                <columns>
                   <TableColumn fx:id="idColumna" prefWidth="98.0" text="id transaccion" />
-                  <TableColumn fx:id="prestamoColumna" prefWidth="99.0" text="id prestamo" />
-                  <TableColumn fx:id="usuarioColumna" prefWidth="83.0" text="Usuario id" />
-                  <TableColumn fx:id="nombreColumna" prefWidth="382.0" text="Nombre Usuario" />
-                  <TableColumn fx:id="accionColumna" prefWidth="287.0" text="Accion" />
-                  <TableColumn fx:id="fechaColumna" prefWidth="250.0" text="Fecha" />
+                  <TableColumn fx:id="usuarioColumna" prefWidth="102.0" text="Usuario id" />
+                  <TableColumn fx:id="nombreColumna" prefWidth="363.0" text="Nombre Usuario" />
+                  <TableColumn fx:id="accionColumna" prefWidth="442.0" text="Accion" />
+                  <TableColumn fx:id="fechaColumna" prefWidth="194.0" text="Fecha" />
                </columns>
             </TableView>
          </center>
@@ -32,7 +30,6 @@
          <top>
             <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <items>
-                  <TextField fx:id="bIdtxt" promptText="id transaccion" />
                   <TextField fx:id="idUsuariotxt" promptText="id Usuario" />
                   <TextField fx:id="nombretxt" promptText="Nombre Usuario" />
                   <Button fx:id="btnBuscar" mnemonicParsing="false" text="Buscar">

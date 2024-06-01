@@ -14,15 +14,13 @@ import java.time.LocalDateTime;
  */
 public class Historial {
     private int transaccion_id;
-    private int prestamo_id;
     private int usuario_id;
     private String nombreUsuario;
     private String accion;
-    private LocalDateTime fecha_transaccion;
+    private LocalDate fecha_transaccion;
 
-    public Historial(int transaccion_id, int prestamo_id, int usuario_id, String nombreUsuario, String accion, LocalDateTime fecha_transaccion) {
+    public Historial(int transaccion_id, int usuario_id, String nombreUsuario, String accion, LocalDate fecha_transaccion) {
         this.transaccion_id = transaccion_id;
-        this.prestamo_id = prestamo_id;
         this.usuario_id = usuario_id;
         this.nombreUsuario = nombreUsuario;
         this.accion = accion;
@@ -35,14 +33,6 @@ public class Historial {
 
     public void setTransaccion_id(int transaccion_id) {
         this.transaccion_id = transaccion_id;
-    }
-
-    public int getPrestamo_id() {
-        return prestamo_id;
-    }
-
-    public void setPrestamo_id(int prestamo_id) {
-        this.prestamo_id = prestamo_id;
     }
 
     public int getUsuario_id() {
@@ -69,11 +59,11 @@ public class Historial {
         this.accion = accion;
     }
 
-    public LocalDateTime getFecha_transaccion() {
+    public LocalDate getFecha_transaccion() {
         return fecha_transaccion;
     }
 
-    public void setFecha_transaccion(LocalDateTime fecha_transaccion) {
+    public void setFecha_transaccion(LocalDate fecha_transaccion) {
         this.fecha_transaccion = fecha_transaccion;
     }
 
@@ -81,7 +71,7 @@ public class Historial {
     
     
     
-    
+   
 }
 
 

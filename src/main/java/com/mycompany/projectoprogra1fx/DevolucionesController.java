@@ -180,9 +180,9 @@ private Button btnDevolucion;
             }
             
             // Insertar en historial_transacciones
-            String queryInsertHistorial = "INSERT INTO historial_transacciones(prestamo_id, accion) VALUES (?, 'devolucion de libro')";
+            String queryInsertHistorial = "INSERT INTO historial_transacciones(usuario_id, accion) VALUES (?, 'devolucion de libro')";
             try (PreparedStatement stmtHistorial = conn.prepareStatement(queryInsertHistorial)) {
-                stmtHistorial.setInt(1, idPrestamo);
+                stmtHistorial.setInt(1, idUsuario);
                 stmtHistorial.executeUpdate();
             }
 

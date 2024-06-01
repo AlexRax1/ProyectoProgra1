@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -39,8 +40,6 @@ private TableView<Historial> tablaHistorial;
 @FXML
 private TableColumn<Historial, Integer> idColumna;
 @FXML
-private TableColumn<Historial, Integer> prestamoColumna;
-@FXML
 private TableColumn<Historial, Integer> usuarioColumna;
 @FXML
 private TableColumn<Historial, String> nombreColumna;
@@ -50,8 +49,7 @@ private TableColumn<Historial, String> accionColumna;
 private TableColumn<Historial, LocalDateTime> fechaColumna;
 
 
-@FXML
-private TextField bIdtxt;
+
 @FXML
 private TextField idUsuariotxt;
 @FXML
@@ -72,7 +70,6 @@ private ObservableList<Historial> historialList;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         idColumna.setCellValueFactory(new PropertyValueFactory<>("transaccion_id"));
-        prestamoColumna.setCellValueFactory(new PropertyValueFactory<>("prestamo_id"));
         usuarioColumna.setCellValueFactory(new PropertyValueFactory<>("usuario_id"));
         nombreColumna.setCellValueFactory(new PropertyValueFactory<>("nombreUsuario"));
         accionColumna.setCellValueFactory(new PropertyValueFactory<>("accion"));
@@ -95,23 +92,21 @@ private ObservableList<Historial> historialList;
         historialList.clear();
 
         Connection conn = ConexionDB.getConnection();
-        String query = "SELECT ht.transaccion_id, p.prestamo_id, u.usuario_id, u.nombre, ht.accion, ht.fecha_transaccion " +
-                       "FROM \"historial_transacciones\" ht " +
-                       "JOIN \"prestamos\" p ON ht.prestamo_id = p.prestamo_id " +
-                       "JOIN \"usuarios\" u ON p.usuario_id = u.usuario_id";
+        String query = "SELECT ht.transaccion_id, u.usuario_id, u.nombre, ht.accion, ht.fecha_transaccion " +
+                       "FROM historial_transacciones ht " +
+                       "JOIN usuarios u ON ht.usuario_id = u.usuario_id";
 
         try (Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
 
             while (rs.next()) {
                 int transaccionId = rs.getInt("transaccion_id");
-                int prestamoId = rs.getInt("prestamo_id");
                 int usuarioId = rs.getInt("usuario_id");
                 String nombreUsuario = rs.getString("nombre");
                 String accion = rs.getString("accion");
-                LocalDateTime fechaTransaccion = rs.getTimestamp("fecha_transaccion").toLocalDateTime();
+                LocalDate fechaTransaccion = rs.getTimestamp("fecha_transaccion").toLocalDateTime().toLocalDate();
 
-                historialList.add(new Historial(transaccionId, prestamoId, usuarioId, nombreUsuario, accion, fechaTransaccion));
+                historialList.add(new Historial(transaccionId, usuarioId, nombreUsuario, accion, fechaTransaccion));
             }
 
         } catch (SQLException e) {
@@ -122,22 +117,17 @@ private ObservableList<Historial> historialList;
     private void buscarHistorial() {
         historialList.clear();
         Connection conn = ConexionDB.getConnection();
-        String transaccionId = bIdtxt.getText();
         String usuarioId = idUsuariotxt.getText();
         String nombreUsuario = nombretxt.getText();
 
         StringBuilder query = new StringBuilder(
-            "SELECT ht.transaccion_id, p.prestamo_id, u.usuario_id, u.nombre, ht.accion, ht.fecha_transaccion " +
-            "FROM \"historial_transacciones\" ht " +
-            "JOIN \"prestamos\" p ON ht.prestamo_id = p.prestamo_id " +
-            "JOIN \"usuarios\" u ON p.usuario_id = u.usuario_id " +
+            "SELECT ht.transaccion_id, u.usuario_id, u.nombre, ht.accion, ht.fecha_transaccion " +
+            "FROM historial_transacciones ht " +
+            "JOIN usuarios u ON ht.usuario_id = u.usuario_id " +
             "WHERE 1=1"
         );
 
         // Añadir condiciones basadas en la entrada del usuario
-        if (!transaccionId.isEmpty()) {
-            query.append(" AND ht.transaccion_id = ?");
-        }
         if (!usuarioId.isEmpty()) {
             query.append(" AND u.usuario_id = ?");
         }
@@ -151,9 +141,6 @@ private ObservableList<Historial> historialList;
             int paramIndex = 1;
 
             // Asignar valores a los parámetros en el PreparedStatement
-            if (!transaccionId.isEmpty()) {
-                stmt.setInt(paramIndex++, Integer.parseInt(transaccionId));
-            }
             if (!usuarioId.isEmpty()) {
                 stmt.setInt(paramIndex++, Integer.parseInt(usuarioId));
             }
@@ -164,13 +151,12 @@ private ObservableList<Historial> historialList;
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 int transaccionIdResult = rs.getInt("transaccion_id");
-                int prestamoId = rs.getInt("prestamo_id");
                 int usuarioIdResult = rs.getInt("usuario_id");
                 String nombreUsuarioResult = rs.getString("nombre");
                 String accion = rs.getString("accion");
-                LocalDateTime fechaTransaccion = rs.getTimestamp("fecha_transaccion").toLocalDateTime();
+                LocalDate fechaTransaccion = rs.getTimestamp("fecha_transaccion").toLocalDateTime().toLocalDate();
 
-                historialList.add(new Historial(transaccionIdResult, prestamoId, usuarioIdResult, nombreUsuarioResult, accion, fechaTransaccion));
+                historialList.add(new Historial(transaccionIdResult, usuarioIdResult, nombreUsuarioResult, accion, fechaTransaccion));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -178,7 +164,6 @@ private ObservableList<Historial> historialList;
     }
 
     private void limpiarCamposBusqueda() {
-        bIdtxt.clear();
         idUsuariotxt.clear();
         nombretxt.clear();
 
